@@ -1,0 +1,16 @@
+C:\Users\User\source\repos\panakota8\panakota8\bin\Release\netcoreapp3.1\panakota8.exe
+C:\Users\User\source\repos\panakota8\panakota8\bin\Release\netcoreapp3.1\panakota8.deps.json
+C:\Users\User\source\repos\panakota8\panakota8\bin\Release\netcoreapp3.1\panakota8.runtimeconfig.json
+C:\Users\User\source\repos\panakota8\panakota8\bin\Release\netcoreapp3.1\panakota8.runtimeconfig.dev.json
+C:\Users\User\source\repos\panakota8\panakota8\bin\Release\netcoreapp3.1\panakota8.dll
+C:\Users\User\source\repos\panakota8\panakota8\bin\Release\netcoreapp3.1\panakota8.pdb
+C:\Users\User\source\repos\panakota8\panakota8\bin\Release\netcoreapp3.1\Newtonsoft.Json.dll
+C:\Users\User\source\repos\panakota8\panakota8\bin\Release\netcoreapp3.1\Telegram.Bot.dll
+C:\Users\User\source\repos\panakota8\panakota8\obj\Release\netcoreapp3.1\panakota8.csprojAssemblyReference.cache
+C:\Users\User\source\repos\panakota8\panakota8\obj\Release\netcoreapp3.1\panakota8.AssemblyInfoInputs.cache
+C:\Users\User\source\repos\panakota8\panakota8\obj\Release\netcoreapp3.1\panakota8.AssemblyInfo.cs
+C:\Users\User\source\repos\panakota8\panakota8\obj\Release\netcoreapp3.1\panakota8.csproj.CoreCompileInputs.cache
+C:\Users\User\source\repos\panakota8\panakota8\obj\Release\netcoreapp3.1\panakota8.csproj.CopyComplete
+C:\Users\User\source\repos\panakota8\panakota8\obj\Release\netcoreapp3.1\panakota8.dll
+C:\Users\User\source\repos\panakota8\panakota8\obj\Release\netcoreapp3.1\panakota8.pdb
+C:\Users\User\source\repos\panakota8\panakota8\obj\Release\netcoreapp3.1\panakota8.genruntimeconfig.cache
