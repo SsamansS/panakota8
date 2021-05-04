@@ -24,21 +24,11 @@ namespace panakota8
         {
             try
             {
-                /*string name = Console.ReadLine();
-                string status = Console.ReadLine();
-                processingDatasFormApi processingDatasFormApi = new processingDatasFormApi();
-                processingDatasFormApi.Process(name, status);*/
-
                 TelegramBotic hlp = new TelegramBotic(token: "");
                 hlp.GetUppdates();
             }
 
-            catch (Exception ex) { Console.WriteLine(ex.Message); }
-            
-
-            
-        }
-
-        
+            catch (Exception ex) { Console.WriteLine(ex.Message); }   
+        }    
     }
 }

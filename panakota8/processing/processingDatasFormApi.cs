@@ -15,15 +15,6 @@ namespace panakota8.processing
             {
                 if (item.Name.ToLower() == name.ToLower())
                 {
-                    /*if (decision == Decision.Absent)
-                        Console.WriteLine("Отсутствовал:");
-                    else if (decision == Decision.Agreed)
-                        Console.WriteLine("За:");
-                    else if (decision == Decision.Initiator)
-                        Console.WriteLine("Инициировал:");
-                    else if (decision == Decision.Rejected)
-                        Console.WriteLine("Против:");*/
-
                     foreach (Vote itemm in re.getResponseOfDeputy(item.Name))
                     {
                         if (itemm.Decision == decision && itemm.DeputyId == item.Id)
@@ -59,18 +50,8 @@ namespace panakota8.processing
         {
             processingDatasFormApi processing = new processingDatasFormApi();
 
-            //Console.WriteLine(processing.TheDecision(name, CheckDecision(status)));
-
             Decision[] decisions = { Decision.Absent, Decision.Agreed, Decision.Rejected, Decision.Initiator };
 
-            /*if (status == "все")
-            {
-                foreach (Decision item in decisions)
-                {
-
-                    Console.WriteLine(processing.TheDecision(name, item));
-                }
-            }*/
             return processing.TheDecision(name, CheckDecision(status));
         }
     }
