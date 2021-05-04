@@ -4,6 +4,15 @@ using System.Threading;
 using Telegram.Bot.Types.ReplyMarkups;
 using System.Collections.Generic;
 
+using System.IO;
+using System.Net;
+using RestSharp;
+using RestSharp.Authenticators;
+using Newtonsoft;
+using Newtonsoft.Json;
+
+using panakota8.processing;
+
 namespace panakota8
 {
     internal class TelegramBotic
@@ -12,7 +21,7 @@ namespace panakota8
         private const string _declaration = "декларация";
         private const string support = "за";
         private const string against = "против";
-        private const string absent = "не был";
+        private const string absent = "отсутствовал";
         private const string proponent = "инициатор";
         private const string all = "все";
         private string detuty = "";
@@ -20,8 +29,10 @@ namespace panakota8
         private const string _oneDateOfDiclaration = "на 05.04.2015";
         private const string _twoDateOfDiclaration = "на 06.04.2020";
 
+        processingDatasFormApi rec = new processingDatasFormApi();
 
-        List<string> depities = new List<string>
+
+        /*List<string> depities = new List<string>
             {
                 "токтосунова айназик",
                 "цой данил",
@@ -35,10 +46,10 @@ namespace panakota8
                 "закон об принятии реализма",
                 "закон об включении мозгов",
                 "закон об уничтожении человечества"
-            };
-        string[] statuses = { "за", "против", "не был", "инициатор" };
+            };*/
+        string[] statuses = { "за", "против", "отсутствовал", "инициатор" };
 
-        List<string> forDeclaration = new List<string>
+        /*List<string> forDeclaration = new List<string>
             {
                 $"токтосунова айназик {_oneDateOfDiclaration}",
                 $"токтосунова айназик {_twoDateOfDiclaration}",
@@ -119,9 +130,13 @@ namespace panakota8
                 {"закон об принятии реализма", закон_о_принятии_реализма },
                 {"закон об включении мозгов", закон_о_включении_мозгов  },
                 {"закон об уничтожении человечества", закон_об_уничтожении_человечества }
-        };
+        };*/
 
-        
+
+
+
+
+
 
 
 
@@ -181,13 +196,16 @@ namespace panakota8
             {
                 case Telegram.Bot.Types.Enums.UpdateType.Message:
                     var text = update.Message.Text;
+                    Console.WriteLine($"{ update.Message.From.FirstName} отправил '{text}'");
+                    ConectWithAPI depities = new ConectWithAPI();
 
-                    for(int j = 0; j < depities.Count; j++)
+                    foreach (Deputy item in depities.getResponseOfDeputies())
                     {
-                        if (text.ToLower() == depities[j])
+                        if (item.Name.ToLower() == text.ToLower())
                         {
-                            detuty = text.ToLower();
+                            detuty = item.Name;
                             _client.SendTextMessageAsync(update.Message.Chat.Id, "законопроекты с которыми взаимодействовал(-а) " + text + " или ее(его) декларация", replyMarkup: GetButtons());
+                            
                         }
                         //else
                         //  _client.SendTextMessageAsync(update.Message.Chat.Id, "Мы не знаем такого депутата пока что");
@@ -204,14 +222,14 @@ namespace panakota8
 Ждем от вас любой совет или предложение, любую критику, каждое субъективное мнение
 
 
-Вам нужно просто ввести ФИ депутата. Пока что мне известна(-ен): Токтосунова Айназик, Цой Данил, Конушбаева Калия
+Вам нужно просто ввести ФИ депутата. Пока что мне известна(-ен): Токтосунова Айназик, Цой Данил, Конушбекова Калия
 
 п.с. регистр можно не соблюдать, но последовательность - надо(ФАМИЛИЯ потом ИМЯ");
                             break;
                         case _laws:
                             _client.SendTextMessageAsync(update.Message.Chat.Id, "голосовал(-а)", replyMarkup: GetButtonsOfStatuses());
                             break;
-                        case _declaration:
+                        /*case _declaration:
                             _client.SendTextMessageAsync(update.Message.Chat.Id, "за какой год?", replyMarkup: GetButtonsForDeclaration());
                             break;
                         case _oneDateOfDiclaration:
@@ -219,24 +237,29 @@ namespace panakota8
                             break;
                         case _twoDateOfDiclaration:
                             _client.SendTextMessageAsync(update.Message.Chat.Id, $"{_twoDateOfDiclaration}:\n\n{ResultAboutDeclaration(detuty, _twoDateOfDiclaration)}");
-                            break;
+                            break;*/
                         case all:
-                            _client.SendTextMessageAsync(update.Message.Chat.Id, $"{statuses[0]}:{ResultOnStatus(ListLaws, Laws, detuty, statuses[0])}\n" +
-                                $"{statuses[1]}:{ResultOnStatus(ListLaws, Laws, detuty, statuses[1])}\n" +
-                                $"{statuses[2]}:{ResultOnStatus(ListLaws, Laws, detuty, statuses[2])}\n" +
-                                $"{statuses[3]}:{ResultOnStatus(ListLaws, Laws, detuty, statuses[3])}\n");
+                            _client.SendTextMessageAsync(update.Message.Chat.Id, $"{statuses[0]}:\n{rec.Process(detuty, statuses[0])}\n" +
+                                $"{statuses[1]}:\n{rec.Process(detuty, statuses[1])}\n" +
+                                $"{statuses[2]}:\n{rec.Process(detuty, statuses[2])}\n" +
+                                $"{statuses[3]}:\n{rec.Process(detuty, statuses[3])}\n");
                             break;
 
                     }
 
-                    for(int j = 0; j < statuses.Length; j++)
+
+                    //ConectWithAPI connection = new ConectWithAPI(text);
+
+
+                    //DeputyActivity resOfDeputies = connection.getResponseOfDeputies();
+
+
+                    for (int j = 0; j < statuses.Length; j++)
                     {
                         if(text == statuses[j])
                         {
-                            _client.SendTextMessageAsync(update.Message.Chat.Id, $"{statuses[j]}:{ResultOnStatus(ListLaws, Laws, detuty, statuses[j])}");
+                            _client.SendTextMessageAsync(update.Message.Chat.Id, $"{statuses[j]}:\n{rec.Process(detuty, statuses[j])}");
                         }
-                        
-
                     }
 
                     //_client.SendTextMessageAsync(update.Message.Chat.Id, "Recive text : " + text, replyMarkup: GetButtons())  ;
@@ -247,7 +270,7 @@ namespace panakota8
             }
         }
 
-        private IReplyMarkup GetButtonsForDeclaration()
+        /*private IReplyMarkup GetButtonsForDeclaration()
         {
             return new ReplyKeyboardMarkup
             {
@@ -260,7 +283,7 @@ namespace panakota8
 
                 }
             };
-        }
+        }*/
 
         private IReplyMarkup GetButtons()
         {
@@ -268,10 +291,8 @@ namespace panakota8
             {
                 Keyboard = new List<List<KeyboardButton>>
                 {
-                    
-                        new List<KeyboardButton>{new KeyboardButton { Text = _laws}, new KeyboardButton { Text = _declaration} },
-                        //new List<KeyboardButton>{new KeyboardButton { Text = TEXT_3}, new KeyboardButton { Text = TEXT_4} }
-                    
+                        new List<KeyboardButton>{new KeyboardButton { Text = _laws}/*, new KeyboardButton { Text = _declaration} */},
+                        //new List<KeyboardButton>{new KeyboardButton { Text = TEXT_3}, new KeyboardButton { Text = TEXT_4} }                    
                 }
             };
         }
@@ -291,7 +312,7 @@ namespace panakota8
             };
         }
 
-        public string ResultAboutDeclaration(string depity, string dataOfDeclaration)
+        /*public string ResultAboutDeclaration(string depity, string dataOfDeclaration)
         {
             for(int j = 0; j < forDeclaration.Count; j++)
             {
@@ -303,6 +324,10 @@ namespace panakota8
             }
             return "";
         }
+
+
+
+
 
         public string ResultOnStatus(List<string> ListLaws, Dictionary<string, Dictionary<string, string>> Laws, string depity, string status)
         {
@@ -320,16 +345,16 @@ namespace panakota8
                     if (depity.ToLower() == ListFromStatus[k])
                     {
                         if (spisok == null)
-                            spisok += $"\n{ListLaws[i]}";
+                            spisok += $"{ListLaws[i]}\n";
                         else
-                            spisok += $"\n{ListLaws[i]}";
+                            spisok += $"{ListLaws[i]}\n";
 
                     }    
                 }
                 
             }
             return $"\n{spisok}";
-        }
+        }*/
 
     }
 }
