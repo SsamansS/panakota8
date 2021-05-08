@@ -24,7 +24,7 @@ namespace panakota8
         {
             try
             {
-                TelegramBotic hlp = new TelegramBotic(token: "1702708937:AAG1UTZYtgQLS43EFkrOY-kcC547WFzzjXg");
+                TelegramBotic hlp = new TelegramBotic(token: "сюда нужно вставить токен вашего телеграм бота");
                 hlp.GetUppdates();
             }
 

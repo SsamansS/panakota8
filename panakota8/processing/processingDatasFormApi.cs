@@ -6,32 +6,10 @@ namespace panakota8.processing
 {
     class processingDatasFormApi
     {
+        ConectWithAPI re = new ConectWithAPI();
         public string TheDecision(string name, Decision decision)
         {
-            ConectWithAPI re = new ConectWithAPI();
             string answer = "";
-
-            /*foreach (Deputy item in re.getResponseOfDeputies())
-            {
-                if (item.Name.ToLower() == name.ToLower())
-                {
-                    foreach (Vote itemm in re.getResponseOfDeputy(item.Name))
-                    {
-                        if (itemm.Decision == decision && itemm.DeputyId == item.Id)
-                        {
-                            foreach (Law itemOfLaw in re.getResponseOfLaws())
-                            {
-                                if (itemm.LawId == itemOfLaw.Id)
-                                {
-                                    answer += $"{itemOfLaw.LawName}\n";
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-            return answer;*/
-
             DeputyActivity deputyActivity = re.getResponseOfDeputy(name);
 
             if (deputyActivity.Name.ToLower() == name.ToLower())
@@ -44,10 +22,23 @@ namespace panakota8.processing
             }
             Console.WriteLine(answer);
             return answer;
-
         }
 
-        public Decision CheckDecision(string status)
+        public string CheckDeputy(string text)
+        {
+            ConectWithAPI depities = new ConectWithAPI();
+
+            foreach (Deputy item in depities.getResponseOfDeputies())
+            {
+                if (item.Name.ToLower() == text.ToLower())
+                {
+                    return item.Name;
+                } 
+            }
+            return "f";
+        }
+
+        /*public Decision CheckDecision(string status)
         {
             if (status.ToLower() == "отсутствовал")
                 return Decision.Absent;
@@ -59,14 +50,6 @@ namespace panakota8.processing
                 return Decision.Rejected;
             else
                 return Decision.Nothing;
-        }
-        public string Process(string name, string status)
-        {
-            processingDatasFormApi processing = new processingDatasFormApi();
-
-            Decision[] decisions = { Decision.Absent, Decision.Agreed, Decision.Rejected, Decision.Initiator };
-
-            return processing.TheDecision(name, CheckDecision(status));
-        }
+        }*/
     }
 }
