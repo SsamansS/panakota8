@@ -11,7 +11,7 @@ namespace panakota8.processing
             ConectWithAPI re = new ConectWithAPI();
             string answer = "";
 
-            foreach (Deputy item in re.getResponseOfDeputies())
+            /*foreach (Deputy item in re.getResponseOfDeputies())
             {
                 if (item.Name.ToLower() == name.ToLower())
                 {
@@ -30,7 +30,21 @@ namespace panakota8.processing
                     }
                 }
             }
+            return answer;*/
+
+            DeputyActivity deputyActivity = re.getResponseOfDeputy(name);
+
+            if (deputyActivity.Name.ToLower() == name.ToLower())
+            {
+                foreach (Vote item in deputyActivity.Votes)
+                {
+                    if(item.Decision == decision)
+                        answer += item.Law.LawName + "\n";
+                }
+            }
+            Console.WriteLine(answer);
             return answer;
+
         }
 
         public Decision CheckDecision(string status)

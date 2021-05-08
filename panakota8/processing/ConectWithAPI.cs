@@ -19,7 +19,7 @@ namespace panakota8
     {
         public string response;
 
-        public List<Vote> getResponseOfDeputy(string name)
+        /*public List<Vote> getResponseOfDeputy(string name)
         {
             HttpWebRequest requestDeputy = (HttpWebRequest)WebRequest.Create(
                 "http://localhost:53623/api/v1/Deputy/name/" + name);
@@ -30,6 +30,19 @@ namespace panakota8
             }
             DeputyActivity deputy = JsonConvert.DeserializeObject<DeputyActivity>(response);
             return deputy.Votes;
+        }*/
+
+        public DeputyActivity getResponseOfDeputy(string name)
+        {
+            HttpWebRequest requestDeputy = (HttpWebRequest)WebRequest.Create(
+                "http://localhost:53623/api/v1/Deputy/name/" + name);
+            HttpWebResponse responseDeputy = (HttpWebResponse)requestDeputy.GetResponse();
+            using (StreamReader streamReader = new StreamReader(responseDeputy.GetResponseStream()))
+            {
+                response = streamReader.ReadToEnd();
+            }
+            DeputyActivity deputy = JsonConvert.DeserializeObject<DeputyActivity>(response);
+            return deputy;
         }
 
         public List<Deputy> getResponseOfDeputies()
