@@ -23,14 +23,15 @@ namespace panakota8
         private const string absent = "отсутствовал";
         private const string proponent = "инициатор";
         private const string all = "все";
+        private const string _declaration = "Налоговая декларация";
         private const string back = "назад";
 
         private string detuty = "";
 
         processingDatasFormApi rec = new processingDatasFormApi();
 
-        string[] statuses = { "за", "против", "отсутствовал", "инициатор" };
-
+        string[] statuses = { "отсутствовал", "за", "против", "инициатор"};
+        Decision[] decisions = { Decision.Absent, Decision.Agreed, Decision.Rejected, Decision.Initiator };
 
 
 
@@ -55,7 +56,6 @@ namespace panakota8
                 {
                     try
                     {
-                        
                         var updates = _client.GetUpdatesAsync(offset).Result;
                         if(updates != null && updates.Count() > 0)
                         {
@@ -81,16 +81,13 @@ namespace panakota8
                 case Telegram.Bot.Types.Enums.UpdateType.Message:
                     var text = update.Message.Text;
                     Console.WriteLine($"{ update.Message.From.FirstName} отправил '{text}'");
-                    ConectWithAPI depities = new ConectWithAPI();
-
-                    foreach (Deputy item in depities.getResponseOfDeputies())
+                    
+                    if (rec.CheckDeputy(text) != "f")
                     {
-                        if (item.Name.ToLower() == text.ToLower())
-                        {
-                            detuty = item.Name;
-                            _client.SendTextMessageAsync(update.Message.Chat.Id, "законопроекты с которыми взаимодействовал(-а) " + text + " или ее(его) декларация", replyMarkup: GetButtons());   
-                        }
+                        detuty = rec.CheckDeputy(text);
+                        _client.SendTextMessageAsync(update.Message.Chat.Id, "законопроекты с которыми взаимодействовал(-а) " + text + " или ее(его) декларация", replyMarkup: GetButtons());   
                     }
+                    
                     
                     switch(text)
                     {
@@ -111,10 +108,13 @@ namespace panakota8
                             _client.SendTextMessageAsync(update.Message.Chat.Id, "голосовал(-а)", replyMarkup: GetButtonsOfStatuses());
                             break;
                         case all:
-                            _client.SendTextMessageAsync(update.Message.Chat.Id, $"{statuses[0]}:\n{rec.Process(detuty, statuses[0])}\n" +
-                                $"{statuses[1]}:\n{rec.Process(detuty, statuses[1])}\n" +
-                                $"{statuses[2]}:\n{rec.Process(detuty, statuses[2])}\n" +
-                                $"{statuses[3]}:\n{rec.Process(detuty, statuses[3])}\n");
+                            _client.SendTextMessageAsync(update.Message.Chat.Id, $"{statuses[0]}:\n{rec.TheDecision(detuty, decisions[0])}\n" +
+                                $"{statuses[1]}:\n{rec.TheDecision(detuty, decisions[1])}\n" +
+                                $"{statuses[2]}:\n{rec.TheDecision(detuty, decisions[2])}\n" +
+                                $"{statuses[3]}:\n{rec.TheDecision(detuty, decisions[3])}\n");
+                            break;
+                        case _declaration:
+                            _client.SendTextMessageAsync(update.Message.Chat.Id, "Налоговая декларация еще в разработке", replyMarkup: GetButtonsOfDeclaration());
                             break;
                         case back:
                             _client.SendTextMessageAsync(update.Message.Chat.Id, "законопроекты с которыми взаимодействовал(-а) " + text + " или ее(его) декларация", replyMarkup: GetButtons());
@@ -126,7 +126,7 @@ namespace panakota8
                     {
                         if(text == statuses[j])
                         {
-                            _client.SendTextMessageAsync(update.Message.Chat.Id, $"{statuses[j]}:\n{rec.Process(detuty, statuses[j])}");
+                            _client.SendTextMessageAsync(update.Message.Chat.Id, $"{statuses[j]}:\n{rec.TheDecision(detuty, decisions[j])}");
                         }
                     }
                     break;
@@ -143,8 +143,19 @@ namespace panakota8
             {
                 Keyboard = new List<List<KeyboardButton>>
                 {
-                        new List<KeyboardButton>{new KeyboardButton { Text = _laws}},
-                        //new List<KeyboardButton>{new KeyboardButton { Text = TEXT_3}, new KeyboardButton { Text = TEXT_4} }                    
+                    new List<KeyboardButton>{ new KeyboardButton { Text = _laws }, new KeyboardButton { Text = _declaration} }                   
+                }
+            };
+        }
+
+
+        private IReplyMarkup GetButtonsOfDeclaration()
+        {
+            return new ReplyKeyboardMarkup
+            {
+                Keyboard = new List<List<KeyboardButton>>
+                {
+                        new List<KeyboardButton>{new KeyboardButton { Text = back}}
                 }
             };
         }
