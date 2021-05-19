@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\User\\source\\repos\\panakota8\\panakota8\\panakota8.csproj": {}
+    "D:\\panakota\\panakota8\\panakota8\\panakota8.csproj": {}
   },
   "projects": {
-    "C:\\Users\\User\\source\\repos\\panakota8\\panakota8\\panakota8.csproj": {
+    "D:\\panakota\\panakota8\\panakota8\\panakota8.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\User\\source\\repos\\panakota8\\panakota8\\panakota8.csproj",
+        "projectUniqueName": "D:\\panakota\\panakota8\\panakota8\\panakota8.csproj",
         "projectName": "panakota8",
-        "projectPath": "C:\\Users\\User\\source\\repos\\panakota8\\panakota8\\panakota8.csproj",
+        "projectPath": "D:\\panakota\\panakota8\\panakota8\\panakota8.csproj",
         "packagesPath": "C:\\Users\\User\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\User\\source\\repos\\panakota8\\panakota8\\obj\\",
+        "outputPath": "D:\\panakota\\panakota8\\panakota8\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
@@ -83,7 +83,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\5.0.202\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\5.0.203\\RuntimeIdentifierGraph.json"
         }
       }
     }

@@ -22,13 +22,21 @@ namespace panakota8
     {
         static void Main(string[] args)
         {
-            try
+            /*try
             {
                 TelegramBotic hlp = new TelegramBotic(token: "сюда нужно вставить токен вашего телеграм бота");
                 hlp.GetUppdates();
             }
 
-            catch (Exception ex) { Console.WriteLine(ex.Message); }   
+            catch (Exception ex) { Console.WriteLine(ex.Message); }*/
+
+            try
+            {
+                TriplTelegramBot gram = new TriplTelegramBot(token: "");
+                gram.TriplGetUppdates();
+
+            }
+            catch(Exception ex) { Console.WriteLine(ex.Message); }
         }    
     }
 }
