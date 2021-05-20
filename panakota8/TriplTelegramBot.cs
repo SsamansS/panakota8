@@ -11,7 +11,7 @@ namespace panakota8
     internal class TriplTelegramBot
     {
         private const string _laws = "законопроекты";
-        //private const string _declaration = "Налоговая декларация";
+        private const string _declaration = "Налоговая декларация";
 
 
         private string _token;
@@ -67,23 +67,71 @@ namespace panakota8
                     if (rec.CheckDeputy(text) != "f")
                     {
                         detuty = rec.CheckDeputy(text);
-                        _client.SendTextMessageAsync(update.Message.Chat.Id, "законопроекты с которыми взаимодействовал(-а) " + text + " или ее(его) декларация", replyMarkup: GetButtons());
+                        _client.SendTextMessageAsync(update.Message.Chat.Id, "законопроекты с которыми взаимодействовал(-а) " + text + " или ее(его) декларация", replyMarkup: GetInlineButtons(update.Id));
                     }
 
                     break;
             }
         }
 
+        private IReplyMarkup GetInlineButtons(int id)
+        {
+            var inlineKeyboard = new InlineKeyboardMarkup(new[]
+               {
+                    // first row
+                    new []
+                    {
+                        InlineKeyboardButton.WithCallbackData("1.1", "11"),
+                        InlineKeyboardButton.WithCallbackData("1.2", "12"),
+                    },
+                    // second row
+                    new []
+                    {
+                        InlineKeyboardButton.WithCallbackData("2.1", "21"),
+                        InlineKeyboardButton.WithCallbackData("2.2", "22"),
+                    }
+                });
+
+            return inlineKeyboard;
+
+            //return new InlineKeyboardMarkup(new[]
+            //{
+                
+                
+                /*InlineKeybod = new List<List<InlineKeyboardButton>>
+                {
+                    new List<InlineKeyboardButton>{ new InlineKeyboardButton { Text = _laws }, new InlineKeyboardButton { Text = _declaration} },
+                    new List<InlineKeyboardButton>{ new InlineKeyboardButton { Text = _laws }, new InlineKeyboardButton { Text = _declaration} }
+                }*/
+                
+                /*new InlineKeyboardButton { Text = "Заказукккуцкуцкуцкькуккккккккккккккккккккккккккккккк                         каку                           ать", CallbackData = id.ToString() },
+                new InlineKeyboardButton { Text = "Заь", CallbackData = id.ToString() },
+                new InlineKeyboardButton { Text = "Закываваыазать", CallbackData = id.ToString() },
+                new InlineKeyboardButton { Text = "Заказукккуцкуцкуцкькуккккккккккккккккккккккккккккккк                         каку                           ать", CallbackData = id.ToString() },
+                new InlineKeyboardButton { Text = "Заь", CallbackData = id.ToString() },
+                new InlineKeyboardButton { Text = "Закываваыазать", CallbackData = id.ToString() }*/
+            //});
+
+            //return new InlineKeyboardMarkup (new InlineKeyboardButton { Text = "Заказать", CallbackData = id.ToString() } );
+            /*{
+                InlineKeyboard = new InlineKeyboardButton
+                {
+                    Text = " заказать", CallbackData = id.ToString()
+                }
+            };*/
+        }
+
         private IReplyMarkup GetButtons()
         {
-            return new List<List<InlineKeyboardButton>>//new InlineKeyboardMarkup
+            return new ReplyKeyboardMarkup
             {
-                Keyboard = new List<List<InlineKeyboardButton>>
+                Keyboard = new List<List<KeyboardButton>>
                 {
-                    new List<InlineKeyboardButton>{ new InlineKeyboardButton { Text = _laws }},
-                    new List<InlineKeyboardButton>{ new InlineKeyboardButton { Text = "_declaration"} }
+                    new List<KeyboardButton>{ new KeyboardButton { Text = _laws }, new KeyboardButton { Text = _declaration} }
                 }
             };
         }
+
+
     }
 }
