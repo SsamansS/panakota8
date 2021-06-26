@@ -25,6 +25,9 @@ namespace panakota8
         private const string all = "все";
         private const string _declaration = "Налоговая декларация";
         private const string back = "назад";
+        private const string still = "ещё";
+
+        int CurrenForSillButton = 1;
 
         private string detuty = "";
 
@@ -126,7 +129,8 @@ namespace panakota8
                     {
                         if(text == statuses[j])
                         {
-                            _client.SendTextMessageAsync(update.Message.Chat.Id, $"{statuses[j]}:\n{rec.TheDecision(detuty, decisions[j])}");
+                            List<string> TheDecisionLikeList = rec.TheDecisionLikeList(detuty, decisions[j]);
+                            _client.SendTextMessageAsync(update.Message.Chat.Id, $"{statuses[j]}:\n{TheDecisionLikeList[0]}", replyMarkup: GetButtonsOfStillButton(decisions[j]));
                         }
                     }
                     break;
@@ -158,6 +162,18 @@ namespace panakota8
                         new List<KeyboardButton>{new KeyboardButton { Text = back}}
                 }
             };
+        }
+
+
+        private IReplyMarkup GetButtonsOfStillButton(Decision decision)
+        {
+            List<string> TheDecisionLikeList = rec.TheDecisionLikeList(detuty, decision);
+            var inlineSelect = new InlineKeyboardMarkup(new[]
+                            {
+                                new[] {InlineKeyboardButton.WithCallbackData($"{still}",TheDecisionLikeList[CurrenForSillButton++]) }
+                            });
+
+            return inlineSelect;
         }
 
 

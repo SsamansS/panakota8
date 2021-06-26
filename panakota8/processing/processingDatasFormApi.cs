@@ -24,6 +24,35 @@ namespace panakota8.processing
             return answer;
         }
 
+        public List<string> TheDecisionLikeList(string name, Decision decision)
+        {
+            string answer = "";
+            List<string> QuantaOfLaws = new List<string>();
+            DeputyActivity deputyActivity = re.getResponseOfDeputy(name);
+
+            if (deputyActivity.Name.ToLower() == name.ToLower())
+            {
+                int i = 1;
+                foreach (Vote item in deputyActivity.Votes)
+                {
+                    if (item.Decision == decision && 30000 > answer.Length)
+                    {
+                        if (item.Law.LawName.Length < 30000 - answer.Length)
+                        {
+                            answer += $"{i++}) " + item.Law.LawName + "\n";
+                        }
+                        else
+                        {
+                            QuantaOfLaws.Add(answer);
+                            answer = "";
+                        }
+                    }
+                }
+            }
+            QuantaOfLaws.Add(answer);
+            return QuantaOfLaws;
+        }
+
         public string CheckDeputy(string text)
         {
             ConectWithAPI depities = new ConectWithAPI();
