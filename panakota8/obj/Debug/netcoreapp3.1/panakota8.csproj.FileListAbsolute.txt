@@ -92,7 +92,6 @@ D:\panakota\panakota8\panakota8\bin\Debug\netcoreapp3.1\runtimes\unix\lib\netcor
 D:\panakota\panakota8\panakota8\bin\Debug\netcoreapp3.1\runtimes\win\lib\netcoreapp3.0\System.Drawing.Common.dll
 D:\panakota\panakota8\panakota8\bin\Debug\netcoreapp3.1\runtimes\win\lib\netstandard2.0\System.Security.Cryptography.ProtectedData.dll
 D:\panakota\panakota8\panakota8\bin\Debug\netcoreapp3.1\runtimes\win\lib\netcoreapp3.0\System.Windows.Extensions.dll
-D:\panakota\panakota8\panakota8\obj\Debug\netcoreapp3.1\panakota8.csprojAssemblyReference.cache
 D:\panakota\panakota8\panakota8\obj\Debug\netcoreapp3.1\panakota8.AssemblyInfoInputs.cache
 D:\panakota\panakota8\panakota8\obj\Debug\netcoreapp3.1\panakota8.AssemblyInfo.cs
 D:\panakota\panakota8\panakota8\obj\Debug\netcoreapp3.1\panakota8.csproj.CoreCompileInputs.cache
@@ -100,3 +99,4 @@ D:\panakota\panakota8\panakota8\obj\Debug\netcoreapp3.1\panakota8.csproj.CopyCom
 D:\panakota\panakota8\panakota8\obj\Debug\netcoreapp3.1\panakota8.dll
 D:\panakota\panakota8\panakota8\obj\Debug\netcoreapp3.1\panakota8.pdb
 D:\panakota\panakota8\panakota8\obj\Debug\netcoreapp3.1\panakota8.genruntimeconfig.cache
+D:\panakota\panakota8\panakota8\obj\Debug\netcoreapp3.1\panakota8.csproj.AssemblyReference.cache

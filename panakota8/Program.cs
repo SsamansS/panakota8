@@ -22,21 +22,39 @@ namespace panakota8
     {
         static void Main(string[] args)
         {
-            /*try
-            {
-                TelegramBotic hlp = new TelegramBotic(token: "сюда нужно вставить токен вашего телеграм бота");
-                hlp.GetUppdates();
-            }
-
-            catch (Exception ex) { Console.WriteLine(ex.Message); }*/
-
             try
             {
-                TriplTelegramBot gram = new TriplTelegramBot(token: "");
-                gram.TriplGetUppdates();
-
+                TelegramBotic hlp = new TelegramBotic(token: "1734499302:AAFSMxohJfcQeXQTf6cNh0JS06g6lae3Y0I");
+                hlp.GetUppdates();
             }
-            catch(Exception ex) { Console.WriteLine(ex.Message); }
-        }    
+            catch (Exception ex) { Console.WriteLine(ex.Message); }
+
+            //try
+            //{
+            //    TriplTelegramBot gram = new TriplTelegramBot(token: "1734499302:AAFSMxohJfcQeXQTf6cNh0JS06g6lae3Y0I");
+            //    gram.TriplGetUppdates();
+            //}
+            //catch (Exception ex) { Console.WriteLine(ex.Message); }
+
+
+        }
+        public static IEnumerable<int[]> GetVs()
+        {
+            List<int[]> vs = new List<int[]>();
+
+            List<int> intt = new List<int>();
+            for (int i = 0; i < 10; i++)
+                intt.Add(i);
+            while (intt.Count >= 3)
+            {
+                int[] int2 = intt.GetRange(intt.Count - 3, 3).ToArray();
+                intt.RemoveRange(intt.Count - 3, 3);
+
+                vs.Add(int2);
+            }
+            vs.Add(intt.ToArray());
+
+            return vs;
+        }
     }
 }

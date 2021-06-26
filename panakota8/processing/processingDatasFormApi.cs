@@ -1,26 +1,32 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using Telegram.Bot.Types.ReplyMarkups;
 
 namespace panakota8.processing
 {
     class processingDatasFormApi
     {
         ConectWithAPI re = new ConectWithAPI();
-        public string TheDecision(string name, Decision decision)
+        public List<string> TheDecision(string name, Decision decision)
         {
-            string answer = "";
+            List<string> answer = new List<string>();
             DeputyActivity deputyActivity = re.getResponseOfDeputy(name);
 
             if (deputyActivity.Name.ToLower() == name.ToLower())
             {
                 foreach (Vote item in deputyActivity.Votes)
                 {
-                    if(item.Decision == decision)
-                        answer += item.Law.LawName + "\n";
+                    if (item.Decision == decision)
+                    {
+                        answer.Add(item.Law.LawName.Replace("О проекте постановления Жогорку Кенеша ", ""));
+                    }
+
+                    //answer += item.Law.LawName + "\n";
                 }
             }
-            Console.WriteLine(answer);
+            foreach (var bill in answer)
+                Console.WriteLine(bill);
             return answer;
         }
 
@@ -38,18 +44,38 @@ namespace panakota8.processing
             return "f";
         }
 
-        /*public Decision CheckDecision(string status)
+
+
+
+        public List<InlineKeyboardButton> GetListOfInlineButtons(string detuty, Decision status)
         {
-            if (status.ToLower() == "отсутствовал")
-                return Decision.Absent;
-            else if (status.ToLower() == "за")
-                return Decision.Agreed;
-            else if (status.ToLower() == "инициатор")
-                return Decision.Initiator;
-            else if (status.ToLower() == "против")
-                return Decision.Rejected;
-            else
-                return Decision.Nothing;
-        }*/
+            List<string> LawsForTheDecision = TheDecision(detuty, status).GetRange(0, 4);
+
+            List<InlineKeyboardButton> ButtonsForLaws = new List<InlineKeyboardButton>();
+            for (int i = 0; i < LawsForTheDecision.Count; i++)
+            {
+                ButtonsForLaws.Add(InlineKeyboardButton.WithCallbackData($"{LawsForTheDecision[i]}", $"return {i}"));
+            }
+            return ButtonsForLaws;
+        }
+        public InlineKeyboardButton[][] Gets(List<InlineKeyboardButton> setButtons)
+        {
+            int len = setButtons.Count;
+            InlineKeyboardButton[][] inlineKeyboards = new InlineKeyboardButton[len][];
+
+            int i = 0;
+            while (i < len)
+            {
+                InlineKeyboardButton[] HelperList = setButtons.GetRange(setButtons.Count - 1, 1).ToArray();
+                setButtons.RemoveRange(setButtons.Count - 1, 1);
+
+                inlineKeyboards[i] = HelperList;
+                i++;
+            }
+
+            return inlineKeyboards;
+        }
+
+
     }
 }

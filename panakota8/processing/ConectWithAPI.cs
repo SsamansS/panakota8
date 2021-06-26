@@ -17,31 +17,34 @@ namespace panakota8
 {
     internal class ConectWithAPI
     {
-        public string response;
+        public string response1;
+        public string response2;
+
 
         public DeputyActivity getResponseOfDeputy(string name)
         {
             HttpWebRequest requestDeputy = (HttpWebRequest)WebRequest.Create(
-                "http://localhost:53623/api/v1/Deputy/name/" + name);
+                "http://panakota.azurewebsites.net/api/v1/Deputy/name/%D0%A0%D1%8B%D1%81%D0%B1%D0%B0%D0%B5%D0%B2%20%D0%A0.%D0%A0.");// + name);
             HttpWebResponse responseDeputy = (HttpWebResponse)requestDeputy.GetResponse();
             using (StreamReader streamReader = new StreamReader(responseDeputy.GetResponseStream()))
             {
-                response = streamReader.ReadToEnd();
+                response2 = streamReader.ReadToEnd();
             }
-            DeputyActivity deputy = JsonConvert.DeserializeObject<DeputyActivity>(response);
+
+            DeputyActivity deputy = JsonConvert.DeserializeObject<DeputyActivity>(response2);
             return deputy;
         }
 
         public List<Deputy> getResponseOfDeputies()
         {
             HttpWebRequest requestDeputies = (HttpWebRequest)WebRequest.Create(
-                "http://localhost:53623/api/v1/Deputy");
+                "http://panakota.azurewebsites.net/api/v1/Deputy");
             HttpWebResponse responseDeputies = (HttpWebResponse)requestDeputies.GetResponse();
             using (StreamReader streamReader = new StreamReader(responseDeputies.GetResponseStream()))
             {
-                response = streamReader.ReadToEnd();
+                response1 = streamReader.ReadToEnd();
             }
-            List<Deputy> deputies = JsonConvert.DeserializeObject<List<Deputy>>(response);
+            List<Deputy> deputies = JsonConvert.DeserializeObject<List<Deputy>>(response1);
             return deputies;
         }
     }

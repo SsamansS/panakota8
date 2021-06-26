@@ -12,6 +12,7 @@ using Newtonsoft;
 using Newtonsoft.Json;
 
 using panakota8.processing;
+using panakota8.Tripl_Trap;
 
 namespace panakota8
 {
@@ -102,7 +103,7 @@ namespace panakota8
 
 Вам нужно просто ввести ФИО депутата шестого созыва в укороченном виде
 
-п.с. регистр можно не соблюдать, но последовательность - надо(например: БекеШев Д.Д.");
+п.с. регистр можно не соблюдать, но последовательность - надо(например: БекеШев Д.д.");
                             break;
                         case _laws:
                             _client.SendTextMessageAsync(update.Message.Chat.Id, "голосовал(-а)", replyMarkup: GetButtonsOfStatuses());
@@ -126,7 +127,7 @@ namespace panakota8
                     {
                         if(text == statuses[j])
                         {
-                            _client.SendTextMessageAsync(update.Message.Chat.Id, $"{statuses[j]}:\n{rec.TheDecision(detuty, decisions[j])}");
+                            _client.SendTextMessageAsync(update.Message.Chat.Id, $"{statuses[j]}:\n", replyMarkup: GetInlineButtons(detuty, decisions[j]));
                         }
                     }
                     break;
@@ -135,6 +136,17 @@ namespace panakota8
                     break;
             }
         }
+
+
+        private IReplyMarkup GetInlineButtons(string detuty, Decision decision)
+        {
+            var gett = rec.GetListOfInlineButtons(detuty, decision);
+            var inlineKeyboard = new InlineKeyboardMarkup(rec.Gets(gett));
+
+            return inlineKeyboard;
+        }
+
+
 
 
         private IReplyMarkup GetButtons()
