@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 
 namespace panakota8.processing
@@ -57,6 +58,8 @@ namespace panakota8.processing
             List<string> listEvery = new List<string>();
             List<string> listEveryBackwards = new List<string>();
 
+            //Deputies.Where(x => x.Name.ToLower().Contains("dsf".ToLower())).Count();  --- 
+
             foreach (Deputy deputy in Deputies)
             {
                 string Every = Switcher(true, deputy, CapitalLetters);
@@ -86,7 +89,7 @@ namespace panakota8.processing
                     if (CapitalLettersAPI.Contains(capitalLetters[i]))
                         ++Curr;
                 }
-                if (Curr == 3)
+                if (Curr == capitalLetters.Count)
                     list = deputy.Name;
             }
             else
@@ -97,7 +100,7 @@ namespace panakota8.processing
                     if (capitalLetters.Contains(CapitalLettersAPI[i]))
                         ++Curr;
                 }
-                if (Curr == 3)
+                if (Curr == capitalLetters.Count)
                     list = deputy.Name;
             }
             return list;
