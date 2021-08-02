@@ -15,13 +15,14 @@ using Newtonsoft.Json;
 
 using panakota8.processing;
 using Telegram.Bot.Types.Enums;
+
 using Telegram.Bot.Args;
 
 namespace panakota8
 {
     class Program
     {
-        static TelegramBotClient Bot; //создали объект
+        //static TelegramBotClient Bot; //создали объект
         static void Main(string[] args)
         {
             try
@@ -29,7 +30,6 @@ namespace panakota8
                 TelegramBotic hlp = new TelegramBotic(token: "1807528983:AAHpWxKKkDDYRTtNGD9rXBFKh8no3Hrtkw4");
                 hlp.GetUppdates();
             }
-
             catch (Exception ex) { Console.WriteLine(ex.Message); }
 
             //try
@@ -50,61 +50,79 @@ namespace panakota8
 
             //catch (Exception ex) { Console.WriteLine(ex.Message); }
 
-            //processingDatasFormApi rec = new processingDatasFormApi();
-            //List<string> TheDecisionLikeList = rec.TheDecisionLikeList("Бекешев Д.Д.", Decision.Rejected);
+            processingDatasFormApi rec = new processingDatasFormApi();
+            List<string> TheDecisionLikeList = rec.TheDecisionLikeList("Бекешев Д.Д.", Decision.Rejected);
+
+            foreach(string l in TheDecisionLikeList)
+            {
+                Console.WriteLine(l);
+                Console.WriteLine("\n\n\n");
+                Console.WriteLine(new string('-', 80));
+                Console.WriteLine("\n\n\n");
+            }
+
+            //foreach (string sett in TheDecisionLikeList("ОроЗова К.Б.", Decision.Agreed))
+            //{
+            //    Console.WriteLine(sett);
+            //    Console.WriteLine("\n\n\n");
+            //    Console.WriteLine(new string('-', 80));
+            //    Console.WriteLine("\n\n\n");
+            //}
+
+            //Console.WriteLine(TheDecision("ОроЗова К.Б.", Decision.Agreed));
+
+
+            Console.WriteLine(@"выав");
 
             //Console.WriteLine(TheDecisionLikeList.Count);
         }
-        private static async void Bot_OnCallbackQueryReceived(object sender, CallbackQueryEventArgs e)
-        {
-            string buttonText = e.CallbackQuery.Data;
-            string name = $"{e.CallbackQuery.From.FirstName } {e.CallbackQuery.From.LastName}";
-            Console.WriteLine($"{name} нажал на кнопку {buttonText}");
 
-            await Bot.AnswerCallbackQueryAsync(e.CallbackQuery.Id, $"вы нажали на кнопку{buttonText}");
+        public static string TheDecision(string name, Decision decision)
+        {
+            ConectWithAPI re = new ConectWithAPI();
+            string answer = "";
+            DeputyActivity deputyActivity = re.getResponseOfDeputy(name);
+
+            if (deputyActivity.Name.ToLower() == name.ToLower())
+            {
+                foreach (Vote item in deputyActivity.Votes)
+                {
+                    if (item.Decision == decision)
+                        answer += item.Law.LawName + "\n";
+                }
+            }
+            Console.WriteLine(answer);
+            return answer;
         }
 
-        private static async void Bot_OnMessageReceived(object sender, Telegram.Bot.Args.MessageEventArgs e) //появилось когда создали Bot.OnMessage
+        public static List<string> TheDecisionLikeList(string name, Decision decision)
         {
-            var message = e.Message;// смс от пользователя
+            ConectWithAPI re = new ConectWithAPI();
+            string answer = "";
+            List<string> QuantaOfLaws = new List<string>();
+            DeputyActivity deputyActivity = re.getResponseOfDeputy(name);
 
-            if (message == null || message.Type != MessageType.Text)
-                return;
-
-            Console.WriteLine($"{message.Text} от {message.From.FirstName}");
-
-            switch (message.Text)
+            if (deputyActivity.Name.ToLower() == name.ToLower())
             {
-                case "/start":
-                    string text =
-@"Привет, я бот ебобот
-отправь имя депутата";
-                    await /*чтобы обратывалось смс от неск-х юзеров*/ Bot.SendTextMessageAsync(message.From.Id/* находим отправителя по айПи*/, text /*отправляем текс*/);
-                    break;
-                case "Дастан Бекешев":
-                    await Bot.SendTextMessageAsync(message.From.Id, @"голосовал против: 
-1)Законопроект о манипулировании информацией в интернете
-2)Законопроект о приостановлении действия некоторых норм конституционного закона «О выборах Президента КР и депутатов Жогорку Кенеша КР»
-
-Инициатор:
-1)Избирательный залог и избирательный порог в ходе выборов депутатов Жогорку Кенеша Кыргызской Республики
-2)Совершенствование законодательства – помощь молодым специалистам
-3)Мораторий на разработку и добычу урана на биосферной территории «Ыссык-Кёль»
-4)Узаконить онлайн-петиции
-");
-                    break;
-                case "Каныбек Иманалиев":
-                    await Bot.SendTextMessageAsync(message.From.Id, @"Инициатор
-1)Поправки по снижению избирательного барьера на парламентских выборах с 9 до 7% ");
-                    break;
-                case "":
-                    await Bot.SendTextMessageAsync(message.From.Id, @"Инициатор
-1)пустоты");
-                    break;
-                default:
-                    await Bot.SendTextMessageAsync(message.From.Id, "введите Иф депутата");
-                    break;
+                int i = 1;
+                foreach (Vote item in deputyActivity.Votes)
+                {
+                    if (item.Decision == decision && 30000 > answer.Length)
+                    {
+                        if (item.Law.LawName.Length < 30000 - answer.Length)
+                        {
+                            answer += $"{i++}) " + item.Law.LawName + "\n";
+                        }
+                        else
+                        {
+                            QuantaOfLaws.Add(answer);
+                            answer = "";
+                        }
+                    }
+                }
             }
+            QuantaOfLaws.Add(answer);
+            return QuantaOfLaws;
         }
     }
 }
