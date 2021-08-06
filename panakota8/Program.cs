@@ -24,10 +24,9 @@ namespace panakota8
         {
             try
             {
-                TelegramBotic hlp = new TelegramBotic(token: "1866100261:AAGXd1xscirPmypdbO2XZCPlGrW7I7MFZ7E");
+                TelegramBotic hlp = new TelegramBotic(token: "сюда нужно вставить токен от ботфазер");
                 hlp.GetUppdates();
             }
-
             catch (Exception ex) { Console.WriteLine(ex.Message); }   
         }    
     }
